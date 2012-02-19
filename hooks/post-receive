@@ -1,2 +1,0 @@
-#!/bin/sh
-GIT_WORK_TREE=$HOME/webapps/pyramid_app/myapp git checkout -f
