@@ -1,4 +1,4 @@
 0.0
 ---
 
--  Initial version
+-  Configure to work with git and mongodb
