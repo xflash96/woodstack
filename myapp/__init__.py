@@ -9,10 +9,9 @@ def main(global_config, **settings):
     """
     config = Configurator(settings=settings)
     config.add_route('default', '/')
-    config.add_view('myapp.views.my_view', 
-                route_name='default',
-                renderer='myapp:templates/mytemplate.pt')
+    config.add_route('data', '/d/*traverse', factory='myapp.resources.Root')
     config.add_static_view('static', 'myapp:static', cache_max_age=3600)
+    config.scan('myapp')
 
     # MongoDB
     db_name = settings['mongodb.db_name']
