@@ -11,6 +11,6 @@ def data_fallback(context, request):
 #    if context == None:
 #        return HTTPNotFound()
 #    else:
-    return context
+    return context.__dict__
 
 #@view_config(route_name='data', context='myapp.resources.PostAttach', renderer='json')

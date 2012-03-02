@@ -4,8 +4,12 @@ class Root(object):
     def __init__(self, request):
         self.request = request
     def __getitem__(self, key):
-        return
-        return Post.objects(key=key).first()
+        p = Post.objects(key=key).first()
+        if p == None:
+            p = Post(key='tpost', title='haha')
+            p.save()
+            return
+        return p
 
 class Post(Document):
     key = StringField(max_length=30, required=True)
