@@ -8,6 +8,7 @@ class Root(object):
         if p == None:
             p = Post(key='tpost', title='haha')
             p.save()
+            print 'save data'
             return
         return p
 
