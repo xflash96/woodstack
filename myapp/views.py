@@ -8,9 +8,9 @@ def my_view(request):
 @view_config(route_name='data', renderer='json')
 def data_fallback(context, request):
     print 'converted'
-    if context == None:
-        return HTTPNotFound()
-    else:
-        return context
+#    if context == None:
+#        return HTTPNotFound()
+#    else:
+    return context
 
 #@view_config(route_name='data', context='myapp.resources.PostAttach', renderer='json')
