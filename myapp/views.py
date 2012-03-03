@@ -9,8 +9,12 @@ def my_view(request):
 def data_fallback(context, request):
     print 'converted'
     if context == None:
-        return None#HTTPNotFound()
+        return HTTPNotFound()
     else:
-        return context.__dict__
+        c = context.to_mongo()
+        c.pop('_types')
+        c.pop('_cls')
+        c['_id'] = str(c['_id'])
+        return c
 
 #@view_config(route_name='data', context='myapp.resources.PostAttach', renderer='json')

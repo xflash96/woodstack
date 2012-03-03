@@ -5,11 +5,6 @@ class Root(object):
         self.request = request
     def __getitem__(self, key):
         p = Post.objects(key=key).first()
-        if p == None:
-            p = Post(key='tpost', title='haha')
-            p.save()
-            print 'save data'
-            return
         return p
 
 class Post(Document):
