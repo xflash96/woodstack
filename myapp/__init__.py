@@ -1,16 +1,27 @@
 from pyramid.config import Configurator
 from pyramid.events import subscriber
 from pyramid.events import NewRequest
+from pyramid.renderers import JSONP
+from pyramid.authentication import AuthTktAuthenticationPolicy
+from pyramid.authorization import ACLAuthorizationPolicy
 # from myapp.resources import Root
 from mongoengine import connect
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
-    config = Configurator(settings=settings)
+    authentication_policy = AuthTktAuthenticationPolicy('secret')
+    authorization_policy = ACLAuthorizationPolicy()
+    config = Configurator(settings=settings,
+            authentication_policy=authentication_policy,
+            authorization_policy=authorization_policy)
+    config.add_renderer('jsonp', JSONP(param_name='callback'))
     config.add_route('default', '/')
     config.add_route('data', '/d/*traverse', factory='myapp.resources.Root')
-    config.add_static_view('static', 'myapp:static', cache_max_age=3600)
+    config.add_route('static', '/static')
+    config.add_route('favicon', '/favicon.ico')
+    config.add_route('robots', '/robots.txt')
+    config.add_static_view('static', 'myapp:static', cache_max_age=0)
     config.scan('myapp')
 
     # MongoDB
