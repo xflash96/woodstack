@@ -1,18 +1,6 @@
 from pyramid.view import view_config
-from pyramid.response import Response
 import os
-
-#this will be replaced in latest pyramid
-#from pyramid.response import FileResponse
-def FileResponse(path, request):
-    content_type = ''
-    if path.endswith('.ico'):
-        content_type = 'image/x-icon'
-    elif path.endswith('.txt'):
-        content_type = 'plain/text'
-
-    f = open(path)
-    return Response(content_type=content_type, app_iter=f)
+from pyramid.response import FileResponse
 
 @view_config(route_name='default', renderer='myapp:templates/main.pt')
 def default_view(request):

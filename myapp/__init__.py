@@ -7,6 +7,7 @@ from pyramid.authorization import ACLAuthorizationPolicy
 # from myapp.resources import Root
 from routes import config_routes
 #import myapp.patch.geventmongo; myapp.patch.geventmongo.patch()
+import myapp.patch.mongoengine_bulk; myapp.patch.mongoengine_bulk.patch()
 from pymongo import uri_parser
 import mongoengine
 

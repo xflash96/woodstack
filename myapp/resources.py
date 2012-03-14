@@ -9,7 +9,6 @@ By the constrain in key matching, traversal will not go further level,
 and the __getitem__ of context will never be used. (safe!)
 '''
 class DocFactory(object):
-    context = None
     def __init__(self, request):
         self.request = request
     def __getitem__(self, key):
@@ -18,13 +17,14 @@ class DocFactory(object):
         if r is None:
             raise KeyError
         else:
-            print r.__dict__
             return r
+    context = None
 
 class Post(Document):
     key = StringField(max_length=30, primary_key=True)
     title = StringField(max_length = 120, required=True)
     date = DateTimeField(default=datetime.datetime.utcnow, required=True)
+    content = StringField(default=lambda : '', required=True)
     @property
     def __acl__(self):
         return [
