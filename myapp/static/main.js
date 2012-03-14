@@ -1,6 +1,8 @@
 var app = (function ($){
 	var main = Backbone.Router.extend({
 		routes: {
+            "post": "listPost",
+            "post/*post": "viewPost",
             "*page": "defaultAction",
         },
         defaultAction: function( page ){
