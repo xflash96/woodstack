@@ -18,9 +18,9 @@ setup(name='myapp',
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
         ],
-      author='',
-      author_email='',
-      url='',
+      author='Po-Wei Wang',
+      author_email='xflash96@gmail.com',
+      url='https://github.com/xflash96/pyramid_mongo_rest',
       keywords='web pyramid pylons',
       packages=find_packages(),
       include_package_data=True,
@@ -31,6 +31,8 @@ setup(name='myapp',
       entry_points = """\
       [paste.app_factory]
       main = myapp:main
+      [console_scripts]
+      pceleryd = myapp.celeryd:main
       """,
       paster_plugins=['pyramid'],
       )

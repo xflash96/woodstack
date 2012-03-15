@@ -7,3 +7,5 @@ Features
 * Object-level security on mongoengine
   * Thanks to [merickel's great tutorial](http://michael.merickel.org/projects/pyramid_auth_demo/index.html)
 ( Under delopement, so use it at your risk :) Just to provide some thought on how I use the hammer
+* Taskqueue modified from (https://github.com/sontek/pyramid_celery)
+  * Route and Import config by decorator with venusian

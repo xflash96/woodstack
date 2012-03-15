@@ -10,6 +10,7 @@ from routes import config_routes
 import myapp.patch.mongoengine_bulk; myapp.patch.mongoengine_bulk.patch()
 from pymongo import uri_parser
 import mongoengine
+import pcelery
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
@@ -36,6 +37,9 @@ def main(global_config, **settings):
     config.registry.settings['mongodb_conn'] = conn
     config.add_subscriber(add_db_conn, NewRequest)
     config.add_subscriber(del_db_conn, NewRequest)
+    pcelery.includeme(config)
+    pcelery.scan()
+
 
     return config.make_wsgi_app()
 
