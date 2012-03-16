@@ -2,6 +2,7 @@ from celery import Celery as _Celery
 from pymongo import uri_parser
 from pyramid.path import caller_package
 import venusian
+import pkgutil
 
 celery = None
 _modules_to_register = set()
@@ -17,6 +18,7 @@ class _Task(object):
 
     def __call__(self, wrapped):
         def callback(scanner, name, ob):
+            global celery
             task = celery.task(self.wrapped, *self.args, **self.kwargs)
             setattr(info.module, name, task)
 
@@ -26,7 +28,10 @@ class _Task(object):
         wrapped_mod = wrapped.__module__
         wrapped_name = wrapped.__name__
         _modules_to_register.add(wrapped_mod)
-        _celery_routes['.'.join([wrapped_mod,wrapped_name])] = \
+        name = self.kwargs.get('name')
+        if name is None:
+            name = '.'.join([wrapped_mod,wrapped_name])
+        _celery_routes[name] = \
                 {'queue': self.queue}
         info = self.venusian.attach(wrapped, callback, category='pcelery')
         return wrapped
@@ -38,8 +43,18 @@ def scan(scope=None):
     if scope is None:
         scope = caller_package()
     scanner.scan(scope, categories=('pcelery',))
+
+def touch_all_package(package):
+    path = package.__path__
+    for loader, module_name, is_pkg in  pkgutil.walk_packages(path):
+        print module_name
+        loader.find_module(module_name).load_module(module_name)
+        exec('import %s' % module_name)
             
-def config_cellery(settings):
+def config_celery(settings, package=None):
+    if package is None:
+        package = caller_package()
+    touch_all_package(package)
     obj_config = config_celery_for_mongo(settings)
     global celery
     celery = _Celery()
@@ -49,7 +64,7 @@ def config_cellery(settings):
 
 
 def includeme(config):
-    config_cellery(config.registry.settings)
+    config_celery(config.registry.settings)
 
 def config_celery_for_mongo(settings):
     db_uri = settings['mongodb.uri'].strip('"\'')
@@ -58,6 +73,8 @@ def config_celery_for_mongo(settings):
     host, port = res['nodelist'][0]
     global _modules_to_register
     global _celery_routes
+    print 'collected tasks'
+    print _celery_routes.keys()
 
     celery_config = {
         'CELERY_RESULT_BACKEND' : 'mongodb',

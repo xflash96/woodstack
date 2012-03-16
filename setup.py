@@ -32,7 +32,7 @@ setup(name='myapp',
       [paste.app_factory]
       main = myapp:main
       [console_scripts]
-      pceleryd = myapp.script.celeryd:main
+      pceleryd = myapp.script.pceleryd:main
       """,
       paster_plugins=['pyramid'],
       )

@@ -12,15 +12,18 @@ def usage(argv):# pragma: no cover
           '(example: "%s development.ini" -l info)' % (cmd, cmd)) 
     sys.exit(1)
 
+def pcelery_setup(config_uri):
+    settings = get_appsettings(config_uri)
+    pcelery.config_celery(settings, myapp)
+    pcelery.scan(myapp)
+
 def main(argv=sys.argv): # pragma: no cover
     if len(argv) < 2:
         usage(argv)
 
     config_uri = argv[1]
+    pcelery_setup(config_uri)
 
-    settings = get_appsettings(config_uri)
-    pcelery.config_cellery(settings)
-    pcelery.scan(myapp)
     worker = WorkerCommand(app=pcelery.celery)
     worker.execute_from_commandline(argv=argv[1:])
 

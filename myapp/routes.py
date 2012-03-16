@@ -1,4 +1,5 @@
 from resources import PostFactory
+from resources import TaskFactory
 #from restview import RESTItemView, RESTSetView
 
 def rest_pair(config, name, factory):
@@ -13,6 +14,7 @@ def config_routes(config):
     config.add_static_view('static', 'myapp:static', cache_max_age=0)
 
     rest_pair(config, 'post', PostFactory)
+    rest_pair(config, 'task', TaskFactory)
 
 def includeme(config):
     config_routes(config)
