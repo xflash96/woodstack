@@ -1,3 +1,4 @@
+import gevent.monkey; gevent.monkey.patch_all()
 import pcelery
 from pcelery import task
 from subprocess import Popen, PIPE

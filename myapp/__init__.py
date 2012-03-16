@@ -5,7 +5,7 @@ from pyramid.renderers import JSONP
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 import routes
-#import myapp.patch.geventmongo; myapp.patch.geventmongo.patch()
+import myapp.patch.geventmongo; myapp.patch.geventmongo.patch()
 import myapp.patch.mongoengine_bulk; myapp.patch.mongoengine_bulk.patch()
 from pymongo import uri_parser
 import mongoengine

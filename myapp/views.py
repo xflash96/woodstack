@@ -1,6 +1,6 @@
 from pyramid.view import view_config
 import os
-from pyramid.response import FileResponse
+from pyramid.response import FileResponse, Response
 
 @view_config(route_name='default', renderer='myapp:templates/main.pt')
 def default_view(request):
@@ -21,4 +21,4 @@ def memroy_view(request):
     import tasks
     r = tasks.get_memory_usage.delay()
     r.wait()
-    return r.result
+    return Response(r.result)
