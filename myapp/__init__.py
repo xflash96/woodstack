@@ -4,8 +4,7 @@ from pyramid.events import NewRequest
 from pyramid.renderers import JSONP
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
-# from myapp.resources import Root
-from routes import config_routes
+import routes
 #import myapp.patch.geventmongo; myapp.patch.geventmongo.patch()
 import myapp.patch.mongoengine_bulk; myapp.patch.mongoengine_bulk.patch()
 from pymongo import uri_parser
@@ -22,7 +21,8 @@ def main(global_config, **settings):
             authorization_policy=authorization_policy)
     config.add_renderer('jsonp', JSONP(param_name='callback'))
 
-    config_routes(config)
+    config.include(routes)
+    config.include(pcelery)
 
     config.scan('myapp')
 
@@ -37,8 +37,6 @@ def main(global_config, **settings):
     config.registry.settings['mongodb_conn'] = conn
     config.add_subscriber(add_db_conn, NewRequest)
     config.add_subscriber(del_db_conn, NewRequest)
-    pcelery.includeme(config)
-    pcelery.scan()
 
 
     return config.make_wsgi_app()

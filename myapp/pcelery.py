@@ -44,6 +44,8 @@ def config_cellery(settings):
     global celery
     celery = _Celery()
     celery.config_from_object(obj_config)
+    print celery.backend
+    print obj_config
 
 
 def includeme(config):

@@ -13,3 +13,6 @@ def config_routes(config):
     config.add_static_view('static', 'myapp:static', cache_max_age=0)
 
     rest_pair(config, 'post', PostFactory)
+
+def includeme(config):
+    config_routes(config)

@@ -21,6 +21,12 @@ myapp.egg-info/not-zip-safe
 myapp.egg-info/paster_plugins.txt
 myapp.egg-info/requires.txt
 myapp.egg-info/top_level.txt
+myapp/myapp.egg-info/SOURCES.txt
+myapp/myapp.egg-info/dependency_links.txt
+myapp/myapp.egg-info/entry_points.txt
+myapp/myapp.egg-info/paster_plugins.txt
+myapp/myapp.egg-info/requires.txt
+myapp/myapp.egg-info/top_level.txt
 myapp/patch/__init__.py
 myapp/patch/geventmongo.py
 myapp/patch/mongoengine_bulk.py
