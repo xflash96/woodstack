@@ -71,5 +71,6 @@ def config_celery_for_mongo(settings):
         },
         'CELERY_DISABLE_RATE_LIMITS': True,
         'CELERY_ROUTES': _celery_routes,
+        'CELERYD_POOL': 'gevent',
     }
     return celery_config

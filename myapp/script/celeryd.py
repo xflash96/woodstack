@@ -8,12 +8,12 @@ import myapp
 
 def usage(argv):# pragma: no cover 
     cmd = os.path.basename(argv[0])
-    print('usage: %s <config_uri>\n'
-          '(example: "%s development.ini")' % (cmd, cmd)) 
+    print('usage: %s <config_uri> [options]\n'
+          '(example: "%s development.ini" -l info)' % (cmd, cmd)) 
     sys.exit(1)
 
 def main(argv=sys.argv): # pragma: no cover
-    if len(argv) != 2:
+    if len(argv) < 2:
         usage(argv)
 
     config_uri = argv[1]
@@ -22,7 +22,7 @@ def main(argv=sys.argv): # pragma: no cover
     pcelery.config_cellery(settings)
     pcelery.scan(myapp)
     worker = WorkerCommand(app=pcelery.celery)
-    worker.run()
+    worker.execute_from_commandline(argv=argv[1:])
 
 if __name__ == "__main__": # pragma: no cover
     main()
