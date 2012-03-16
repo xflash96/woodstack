@@ -6,7 +6,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, 'README.rst')).read()
 CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
-requires = ['pyramid', 'pyramid_debugtoolbar', 'pymongo', 'gevent']
+requires = ['pyramid', 'pyramid_debugtoolbar', 'pymongo', 'gevent', 'celery']
 
 setup(name='myapp',
       version='0.0',
@@ -32,7 +32,7 @@ setup(name='myapp',
       [paste.app_factory]
       main = myapp:main
       [console_scripts]
-      pceleryd = myapp.celeryd:main
+      pceleryd = myapp.script.celeryd:main
       """,
       paster_plugins=['pyramid'],
       )

@@ -3,7 +3,8 @@ import os
 import sys
 from celery.bin.celeryd import WorkerCommand
 from pyramid.paster import get_appsettings
-from myapp.pcelery import celery, config_cellery
+import myapp.pcelery as pcelery
+import myapp
 
 def usage(argv):# pragma: no cover 
     cmd = os.path.basename(argv[0])
@@ -18,8 +19,9 @@ def main(argv=sys.argv): # pragma: no cover
     config_uri = argv[1]
 
     settings = get_appsettings(config_uri)
-    config_cellery(settings)
-    worker = WorkerCommand(app=celery)
+    pcelery.config_cellery(settings)
+    pcelery.scan(myapp)
+    worker = WorkerCommand(app=pcelery.celery)
     worker.run()
 
 if __name__ == "__main__": # pragma: no cover
