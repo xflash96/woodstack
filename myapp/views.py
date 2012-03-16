@@ -16,3 +16,9 @@ def robots_view(request):
     txt = os.path.dirname(__file__)+'/static/robots.txt'
     return FileResponse(txt, request=request)
 
+@view_config(route_name='memory')
+def memroy_view(request):
+    import tasks
+    r = tasks.get_memory_usage.delay()
+    r.wait()
+    return r.result

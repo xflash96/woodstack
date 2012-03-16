@@ -15,6 +15,7 @@ def config_routes(config):
 
     rest_pair(config, 'post', PostFactory)
     rest_pair(config, 'task', TaskFactory)
+    config.add_route('memory', '/memory')
 
 def includeme(config):
     config_routes(config)
