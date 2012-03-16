@@ -29,5 +29,5 @@ def do_command(args):
 
 @task()
 def get_memory_usage():
-    out, err = do_command(['wmem'])
+    out, err = do_command(['ps', '-u', 'xflash96', '-o', 'pid,rss,command'])
     return out

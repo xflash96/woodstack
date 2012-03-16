@@ -2,3 +2,4 @@ build/
 *.pyc
 *.log
 *.swp
+myapp.egg-info/
