@@ -19,13 +19,6 @@ def robots_view(request):
 @view_config(route_name='memory')
 def memroy_view(request):
     import tasks
-    if 0:
-        r = tasks.get_memory_usage.delay()
-        r.wait()
-    else:
-        f = open('/home/will/Makefile')
-        r = tasks.pass_file.delay(f)
-        r.wait()
-        r = r.result[0]
-        
+    r = tasks.get_memory_usage.delay()
+    r.wait()
     return Response(r)
