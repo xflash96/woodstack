@@ -1,11 +1,10 @@
 from pyramid.config import Configurator
-#from pyramid.events import subscriber
 from pyramid.events import NewRequest
 from pyramid.renderers import JSONP
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 import routes
-import myapp.patch.geventmongo; myapp.patch.geventmongo.patch()
+#import myapp.patch.geventmongo; myapp.patch.geventmongo.patch()
 import myapp.patch.mongoengine_bulk; myapp.patch.mongoengine_bulk.patch()
 from pymongo import uri_parser
 import mongoengine
@@ -37,6 +36,9 @@ def main(global_config, **settings):
     config.registry.settings['mongodb_conn'] = conn
     config.add_subscriber(add_db_conn, NewRequest)
     config.add_subscriber(del_db_conn, NewRequest)
+    # overwrite to celery to use the same conn
+    #pcelery.celery.backend._connection = conn
+    #pcelery.celery.backend._database = conn['celery']
 
 
     return config.make_wsgi_app()

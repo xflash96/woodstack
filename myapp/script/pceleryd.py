@@ -2,9 +2,8 @@
 import os
 import sys
 from celery.bin.celeryd import WorkerCommand
-from pyramid.paster import get_appsettings
+from pyramid.paster import bootstrap
 import myapp.pcelery as pcelery
-import myapp
 
 def usage(argv):# pragma: no cover 
     cmd = os.path.basename(argv[0])
@@ -13,9 +12,8 @@ def usage(argv):# pragma: no cover
     sys.exit(1)
 
 def pcelery_setup(config_uri):
-    settings = get_appsettings(config_uri)
-    pcelery.config_celery(settings, myapp)
-    pcelery.scan(myapp)
+    config = bootstrap(config_uri)
+    pcelery.config_celery(config['registry'].settings)
 
 def main(argv=sys.argv): # pragma: no cover
     if len(argv) < 2:

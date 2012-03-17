@@ -49,8 +49,7 @@ class TaskSetView(object):
 
     @view_config(request_method='DELETE', permission='drop')
     def delete(self):
-        self.context.drop_collection()
-        self.discard_all()
+        self.context.discard_all()
         return HTTPAccepted()
 
 def to_uri(li, request):
