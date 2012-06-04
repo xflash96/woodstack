@@ -6,7 +6,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, 'README.rst')).read()
 CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
-requires = ['pyramid', 'pyramid_debugtoolbar', 'pymongo', 'gevent', 'celery']
+requires = ['pyramid', 'pyramid_debugtoolbar', 'mongoengine', 'gevent', 'celery', 'webtest']
 
 setup(name='myapp',
       version='0.0',

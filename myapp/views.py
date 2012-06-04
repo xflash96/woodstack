@@ -6,19 +6,39 @@ from pyramid.response import FileResponse, Response
 def default_view(request):
     return {}
 
-@view_config(route_name='favicon')
+_here = os.path.dirname(__file__)
+_cache_max_age = 3600
+
+# FIXME I'm not sure file iterator will work as expected in gevent
+_ico = os.path.join(_here, 'static', 'ico', 'favicon.ico')
+_ico_resp = FileResponse(_ico, cache_max_age=_cache_max_age)
+@view_config(route_name='favicon.ico')
 def favicon_view(request):
-    icon = os.path.dirname(__file__)+'/static/favicon.ico'
-    return FileResponse(icon, request=request)
+    return _ico_resp
 
-@view_config(route_name='robots')
+_robots = os.path.join(_here, 'static', 'robots.txt')
+_robots_resp = FileResponse(_robots, cache_max_age=_cache_max_age)
+@view_config(route_name='robots.txt')
 def robots_view(request):
-    txt = os.path.dirname(__file__)+'/static/robots.txt'
-    return FileResponse(txt, request=request)
+    return _robots_resp
 
-@view_config(route_name='memory')
-def memroy_view(request):
-    import tasks
-    r = tasks.get_memory_usage.delay()
-    r.wait()
-    return Response(r)
+_humans = os.path.join(_here, 'static', 'humans.txt')
+_humans_resp = FileResponse(_humans, cache_max_age=_cache_max_age)
+@view_config(route_name='humans.txt')
+def humans_view(request):
+    return _humans_resp
+
+_crossdomain = os.path.join(_here, 'static', 'crossdomain.xml')
+_crossdomain_resp = FileResponse(_crossdomain, cache_max_age=_cache_max_age)
+@view_config(route_name='crossdomain.xml')
+def crossdomain_view(request):
+    return _crossdomain_resp
+
+if 0:
+    @view_config(route_name='memory')
+    def memroy_view(request):
+        import tasks
+        r = tasks.get_memory_usage.delay()
+        r.wait()
+        r = r.result
+        return Response(r)

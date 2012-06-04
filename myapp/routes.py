@@ -1,21 +1,19 @@
-from resources import PostFactory
-from resources import TaskFactory
-#from restview import RESTItemView, RESTSetView
+from myapp.resources import PostFactory
 
-def rest_pair(config, name, factory):
-    config.add_route(name+'s', '/'+name+'/', factory=factory, use_global_views=True)
-    config.add_route(name, '/'+name+'/{key}', factory=factory, traverse='{key}', use_global_views=True)
+from woodstack.rest import rest_pair
+from woodstack.task import TaskFactory
 
 def config_routes(config):
-    config.add_route('default', '/')
+    config.add_route('favicon.ico', '/favicon.ico')
+    config.add_route('robots.txt', '/robots.txt')
+    config.add_route('humans.txt', '/humans.txt')
+    config.add_route('crossdomain.xml', '/crossdomain.xml')
     config.add_route('static', '/static')
-    config.add_route('favicon', '/favicon.ico')
-    config.add_route('robots', '/robots.txt')
-    config.add_static_view('static', 'myapp:static', cache_max_age=0)
+    config.add_static_view('static', 'myapp:static', cache_max_age=3600)
 
+    config.add_route('default', '/')
     rest_pair(config, 'post', PostFactory)
     rest_pair(config, 'task', TaskFactory)
-    config.add_route('memory', '/memory')
 
 def includeme(config):
     config_routes(config)

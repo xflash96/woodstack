@@ -1,25 +1,180 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal">
-<head>
-  <title>RESTFUL Pyramid with mongoenigne</title>
-  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-  <meta http-equiv="cache-control" content="no-cache">
-  <link rel="shortcut icon" href="favicon.ico" />
-</head>
-<body>
-  <div id="wrap">
-    <div id="main">
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Woodstack</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Le debugs
+    <meta http-equiv="cache-control" content="no-cache">
+    -->
+
+    <!-- Le styles -->
+    <link href="/static/css/bootstrap.css" rel="stylesheet"/>
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <link href="/static/css/bootstrap-responsive.css" rel="stylesheet"/>
+    <link href="/static/css/prettify.css" rel="stylesheet"/>
+
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/static/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/static/ico/apple-touch-icon-57-precomposed.png">
+
+    <!-- Support html5 for older browsers -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.5.3/modernizr.min.js"></script>
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Woodstack</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li><a href="#">Home</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
     </div>
-  </div>
-  <div id="footer">
-    <div class="footer">
-    </div>
-  </div>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.1/underscore-min.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.1/backbone-min.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/json2/20110223/json2.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0.beta2/handlebars.min.js"></script>
-  <script src="${request.static_url('myapp:static/main.js')}"></script>
-</body>
+
+    <div class="container">
+        <div id="content">
+
+            <h1>Bootstrap starter template</h1>
+            <p>Use this document as a way to quick start any new project.<br> All you get is this message and a barebones HTML document.</p>
+
+
+        </div>
+        <hr>
+        <footer>
+        <p>My collection of web stack</p>
+        </footer>
+    </div> <!-- /container -->
+    
+    <!-- template -->
+    <script id="upload-tmpl" type="text/x-handlebars-template">
+        <h1> Upload Your Images </h1>
+        <hr>
+        <div id="uploadStatus" class="{{alertStyle}}">{{msg}}</div>
+        <div class="row">
+            <div class="span6">
+                <form id="morphMeta" action="/morph/" method="post" accept-charset="utf-8" enctype="multipart/form-data" class="form-horizontal">
+                    <fieldset>
+                        <div class="control-group">
+                            <label class="control-label" for="srcImage"> From </label>
+                            <div class="controls">
+                                <input id="srcImage" class="input-file" type="file" name="src_image" value="" />
+                                <p class="help-block">Source Image</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="dstImage"> To </label>
+                            <div class="controls">
+                                <input id="dstImage" class="input-file" type="file" name="dst_image" value="" />
+                                <p class="help-block">Destination Image</p>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-large">Submit</button> &nbsp; &nbsp;
+                            <button type="cancel" class="btn">Cancel</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="span5 offset1">
+                <div id="srcImagePreview"></div>
+                <div id="dstImagePreview"></div>
+            </div>
+        </div>
+    </script>
+    <script id="main-tmpl" type="text/x-handlebars-template">
+        <div class="hero-unit">
+            <div class="row">
+                <div class="span3">
+                    <h2>A full web stack</h2> with Pyramid, mongodb, celery
+
+                </div>
+                <div id="mainShowcase" class="carousel span5 offset2"></div>
+            </div>
+            <hr>
+            <div>
+                <a class="btn btn-primary btn-large offset1" href="http://github.com/xflash96/woodstack">Try now &raquo;</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span2">
+                <h2>Pyramid</h2>
+                light web framework
+            </div>
+            <div class="span2">
+                <h2>MongoDB</h2>
+                Humogonious Database
+            </div>
+            <div class="span2">
+                <h2>Gunicorn</h2>
+                Gevent WSGI server
+            </div>
+            <div class="span2">
+                <h2>Backbone</h2>
+                light JS MVC framework
+            </div>
+            <div class="span2">
+                <h2>Celery</h2>
+                Robust task queue
+            </div>
+        </div>
+    </script>
+    <script id="contact-tmpl" type="text/x-handlebars-template">
+        <div class="row">
+            <div class="span4">
+                <p>collab ... blablabla</p>
+            </div>
+            <div class="span4">
+                <h2>Po-Wei Wang</h2>
+                intro
+            </div>
+        </div>
+    </script>
+    <script id="report-tmpl" type="text/x-handlebars-template">
+        <div class="row" id="wiki"></div>
+    </script>
+
+    <!-- Le javascripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.1/underscore-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.1/backbone-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0.beta2/handlebars.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.0.2/bootstrap.min.js"></script>
+    <script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
+    <script src="/static/js/latexit.js"></script>
+    <script src="/static/js/jquery.form.min.js"></script>
+    <script src="/static/js/creole.js"></script>
+    <script src="/static/main.js"></script>
+    <script src="/static/js/load-image.js"></script>
+    <!--
+    <script src="/static/js/bootstrap-transition.js"></script>
+    <script src="/static/js/bootstrap-tab.js"></script>
+    <script src="/static/js/bootstrap-tooltip.js"></script>
+    <script src="/static/js/bootstrap-popover.js"></script>
+    <script src="/static/js/bootstrap-typeahead.js"></script>
+    -->
+
+  </body>
 </html>
