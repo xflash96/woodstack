@@ -3,7 +3,7 @@ import os
 import sys
 from celery.bin.celeryd import WorkerCommand
 from pyramid.paster import bootstrap
-from myapp.woodstack.task import pcelery
+from woodstack.task import pcelery
 
 def usage(argv):# pragma: no cover 
     cmd = os.path.basename(argv[0])

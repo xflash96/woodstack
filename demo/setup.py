@@ -4,14 +4,13 @@ from setuptools import setup, find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, 'README.rst')).read()
-CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
-requires = ['pyramid', 'pyramid_debugtoolbar', 'mongoengine', 'gevent', 'celery', 'webtest']
+requires = ['woodstack', 'pyramid', 'pyramid_debugtoolbar', 'mongoengine', 'gevent', 'celery', 'webtest']
 
-setup(name='woodstack',
+setup(name='myapp',
       version='0.02',
-      description='web stack for pyramid',
-      long_description=README + '\n\n' +  CHANGES,
+      description='myapp',
+      long_description=README,
       classifiers=[
         "Programming Language :: Python",
         "Framework :: Pylons",
@@ -20,17 +19,16 @@ setup(name='woodstack',
         ],
       author='Po-Wei Wang',
       author_email='xflash96@gmail.com',
-      url='https://github.com/xflash96/woodstack',
       keywords='web pyramid pylons',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
       install_requires=requires,
       tests_require=requires,
-      test_suite="",
+      test_suite="myapp",
       entry_points = """\
-      [console_scripts]
-      pceleryd = woodstack.scripts.pceleryd:main
+      [paste.app_factory]
+      main = myapp:main
       """,
       paster_plugins=['pyramid'],
       )

@@ -1,11 +1,26 @@
-A Restful Pyramid website with mongoengine
-##########################################
-Features
---------
-* pymongo patched to play with gevent (gunicorn)
-  * modified from [10gen gist](https://gist.github.com/1184264)
-* Object-level security on mongoengine
-  * Thanks to [merickel's great tutorial](http://michael.merickel.org/projects/pyramid_auth_demo/index.html)
-( Under delopement, so use it at your risk :) Just to provide some thought on how I use the hammer
-* Taskqueue modified from (https://github.com/sontek/pyramid_celery)
-  * Route and Import config by decorator with venusian
+Woodstack
+=========
+
+Introduction
+------------
+
+This is a web stack that intergrates several exisitng tools into pyramid.
+
+*mongo*
+- use `mongoengine <https://github.com/MongoEngine/mongoengine>`_ for MongoDB ORM
+- REST interface with traversal pattern
+- gevent supported
+
+*task*
+- use `celery <https://github.com/ask/celery>`_ for distributed task queue
+- Copped with mongodb
+- Decorator that speficy queue name and auto register tasks
+- configure and run celeryd with paste script, $ pceleryd [development.ini]
+- REST interface
+
+*rest*
+- Rest Contract and Views
+
+demo
+----
+The demo inlcudes a html5 website template with backbone and bootstrap.

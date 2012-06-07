@@ -159,6 +159,3 @@ def NotImplView(exc, request):
     response = Response('This feature is not implemented\n'+exc.msg)
     response.status_int = 404
     return response
-@view_config(context=Response)
-def SimpleResponse(request):
-    return request.context

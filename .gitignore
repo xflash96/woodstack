@@ -2,5 +2,6 @@ build/
 *.pyc
 *.log
 *.swp
-myapp/templates/main.js
-myapp.egg-info/
+demo/myapp/templates/main.js
+demo/myapp.egg-info/
+woodstack.egg-info/

@@ -22,9 +22,9 @@ if 0:
             from myapp import main
             from webtest import TestApp
             settings = {
-                    'mongodb.uri': 'mongodb://127.0.0.1:44184',
+                    'mongodb.uri': 'mongodb://127.0.0.1:44183',
                     'mongodb.db_name': 'xflash96',
-                    'celery.broker_url': 'mongodb://localhost:44184',
+                    'celery.broker_url': 'mongodb://localhost:44183',
                     'celery.dbname': 'celery'
                     }
             self.app = TestApp(main({}, **settings))
@@ -33,5 +33,5 @@ if 0:
             testing.tearDown();
 
         def test_root(self):
-            res = self.app.get('/morph')
+            res = self.app.get('/')
             print res

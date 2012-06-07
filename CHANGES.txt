@@ -1,4 +1,4 @@
-0.0
+0.02
 ---
 
--  Configure to work with git and mongodb
+-  Split woodstack and myapp
