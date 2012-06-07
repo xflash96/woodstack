@@ -27,6 +27,8 @@ def includeme(config):
     #pcelery.celery.backend._connection = conn
     #pcelery.celery.backend._database = conn['celery']
 
+    config.scan()
+
 
 def add_db_conn(event):
     settings = event.request.registry.settings

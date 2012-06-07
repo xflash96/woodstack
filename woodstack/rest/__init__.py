@@ -6,3 +6,4 @@ def includeme(config):
     config.include('..rest')
     config.add_directive('add_rest_route', add_rest_route)
     config.add_renderer('ujson', ujson_renderer_factory)
+    config.scan()

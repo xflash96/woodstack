@@ -8,3 +8,4 @@ def includeme(config):
     config.include('..rest')
     monkey.patch()
     pcelery.config_celery(config.registry.settings)
+    config.scan()
