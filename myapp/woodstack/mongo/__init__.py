@@ -1,9 +1,5 @@
-from ..patch import geventmongo; geventmongo.patch()
-from ..patch import anyjson_ujson; anyjson_ujson.patch()
-from ..patch import mongoengine_bulk; mongoengine_bulk.patch()
-from ..patch import pyramid_response; pyramid_response.patch()
-
-from ..renderers import ujson_renderer_factory
+import monkey
+from .resources import MongoItem, MongoCollection
 
 from pyramid.events import NewRequest
 from pymongo import uri_parser
@@ -12,7 +8,9 @@ import mongoengine
 def includeme(config):
     settings = config.registry.settings
 
-    config.add_renderer('ujson', ujson_renderer_factory)
+    config.include('..rest')
+    monkey.patch()
+
 
     # MongoDB
     db_uri = settings['mongodb.uri']

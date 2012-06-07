@@ -1,17 +1,40 @@
-'''
-Wrapping the mongoengine.Document.
-By the constrain in key matching, traversal will not go further level,
-and the __getitem__ of context will never be used. (safe!)
-'''
-class DocFactory(object):
-    def __init__(self, request):
-        self.request = request
-    def __getitem__(self, key):
-        q = self.context.objects(pk=key)
-        r = q.first()
-        if r is None:
-            raise KeyError
-        else:
-            return r
-    context = None
+class RestItem(object):
+    def update(self, d, replace):
+        '''
+        Partially update property.
+        If replace is True, replace whole property.
+        '''
+        raise NotImplementedError
+    def read(self):
+        '''
+        Return the dict form of context with specified field.
+        If field is [], return all the field.
+        '''
+        raise NotImplementedError
+    def delete(self):
+        '''
+        Delete the entity.
+        '''
+        raise NotImplementedError
 
+class RestCollection(object):
+    def create(self, d):
+        '''
+        Create a item by dict d
+        '''
+        raise NotImplementedError
+    def list(self, fields, start, limit):
+        '''
+        Return a list of dict with specified fields from start to start+limit.
+        '''
+        raise NotImplementedError
+    def drop(self):
+        '''
+        drop whole collection
+        '''
+        raise NotImplementedError
+    def __getitem__(self, key):
+        '''
+        Return one RestItem with matched primary key.
+        '''
+        raise NotImplementedError

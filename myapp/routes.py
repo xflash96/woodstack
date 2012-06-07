@@ -1,7 +1,5 @@
-from myapp.resources import PostFactory
-
-from woodstack.rest import rest_pair
-from woodstack.task import TaskFactory
+from myapp.resources import PostCollection
+from woodstack.task import TaskCollection
 
 def config_routes(config):
     config.add_route('favicon.ico', '/favicon.ico')
@@ -12,8 +10,8 @@ def config_routes(config):
     config.add_static_view('static', 'myapp:static', cache_max_age=3600)
 
     config.add_route('default', '/')
-    rest_pair(config, 'post', PostFactory)
-    rest_pair(config, 'task', TaskFactory)
+    config.add_rest_route('post', PostCollection)
+    config.add_rest_route('task', TaskCollection)
 
 def includeme(config):
     config_routes(config)

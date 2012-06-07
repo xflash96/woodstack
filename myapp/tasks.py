@@ -1,5 +1,5 @@
 import gevent.monkey; gevent.monkey.patch_all()
-if 0:
+if 1:
     from woodstack.task import task
     from subprocess import Popen, PIPE
 

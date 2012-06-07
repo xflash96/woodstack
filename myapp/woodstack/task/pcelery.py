@@ -47,9 +47,10 @@ def scan(scope=None):
 def touch_all_package(package):
     path = package.__path__
     for loader, module_name, is_pkg in  pkgutil.walk_packages(path):
-        #print module_name
-        loader.find_module(module_name).load_module(module_name)
-        exec('import %s' % module_name)
+        if is_pkg:
+            mod = loader.find_module(module_name)
+            mod.load_module(module_name)
+            exec('import %s' % module_name)
             
 def config_celery(settings, package=None):
     if package is None:
@@ -61,10 +62,6 @@ def config_celery(settings, package=None):
     celery.config_from_object(obj_config)
     #print celery.backend
     #print obj_config
-
-
-def includeme(config):
-    config_celery(config.registry.settings)
 
 def config_celery_for_mongo(settings):
     db_uri = settings['mongodb.uri'].strip('"\'')
