@@ -3,10 +3,27 @@ from mongoengine import ValidationError, InvalidQueryError, OperationError
 from mongoengine import FileField
 from mongoengine.fields import ObjectId, GridFSProxy
 from pymongo.connection import DuplicateKeyError
-from pyramid.response import FileResponse, Response
+from pyramid.response import FileResponse
+import pymongo.son
 import datetime
 
 from ..rest import RestItem, RestCollection
+
+class MongoSON(object):
+    son = None
+    def __init__(self, d):
+        if type(d) is dict:
+            self.son = dict(d)
+        else:
+            self.son = d
+
+    def __getitem__(self, key):
+        print type(self.son)
+        if type(self.son) is dict:
+            d = self.son.__getitem__(key)
+        else:
+            raise KeyError
+        return self.__class__(d)
 
 class MongoItem(RestItem):
     doc_class = mongoengine.Document
@@ -48,8 +65,10 @@ class MongoItem(RestItem):
             return FileResponse(file_obj=grid_file, last_modified=grid_file.upload_date)
         else:
             v = getattr(self.context, field_name)
-            v = str(v)
-            return Response(v)
+            v = v.to_mongo()
+            del v['_types']
+            del v['_cls']
+            return MongoSON(v)
 
 class MongoCollection(RestCollection):
     item_class = MongoItem
@@ -59,9 +78,12 @@ class MongoCollection(RestCollection):
         for k,v in d.iteritems():
             if hasattr(v, 'file'):
                 files[k] = v
-                d.remove(k)
+                del d[k]
 
-        n = self.doc_class(**d)
+        if '_cls' in d:
+            del d['_cls']
+        son = pymongo.son.SON(d)
+        n = self.doc_class._from_son(son)
 
         for k,v in files:
             if hasattr(n, k):
@@ -87,7 +109,11 @@ class MongoCollection(RestCollection):
             to_add = []
             for i in d:
                 n = self.new_item(i)
-                n.validate()
+                try:
+                    n.validate()
+                except ValidationError, e:
+                    print e.errors
+                    continue
                 to_add.append(n)
             try:
                 self.doc_class.objects.insert(to_add, load_bulk=True)
