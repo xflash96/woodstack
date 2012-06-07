@@ -2,7 +2,7 @@ import unittest
 
 from pyramid import testing
 
-if 1:
+if 0:
     class ViewTests(unittest.TestCase):
         def setUp(self):
             self.config = testing.setUp()
@@ -35,3 +35,36 @@ if 0:
         def test_root(self):
             res = self.app.get('/')
             print res
+
+if 1:
+    import urllib2
+    import json
+
+    def json_dial(url, method='GET', d=None):
+        headers = {
+                "Content-Type":"application/json",
+                "X-Requested-With": "XMLHttpRequest",
+                } 
+        s = json.dumps(d)
+        request = urllib2.Request(url, s)
+        request.get_method = lambda: method
+        for (k,v) in headers.items():
+            request.add_header(k,v)
+        response = urllib2.urlopen(request)
+        print response.info().headers
+        return response.read()
+
+    d = lambda i: {'title': 'i love '+chr(i)+" kerker", 'key':chr(i), 'content':'contemplating on the meaning of "%d"'%i}
+    l = [d(i) for i in range(ord('a'), ord('z'))]
+
+    url = 'http://127.0.0.1:33123/post'
+
+    json_dial(url, 'DELETE')
+    json_dial(url, 'POST', l)
+    json_dial(url, 'POST', d(ord('A')))
+    json_dial(url+'/a', 'DELETE')
+    json_dial(url+'/a', 'DELETE')
+    json_dial(url, 'POST', d(ord('A')))
+    l = l[:len(l)/2]
+    json_dial(url, 'POST', l)
+    json_dial(url, 'DELETE')
