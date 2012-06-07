@@ -7,12 +7,12 @@ Introduction
 This is a web stack that intergrates several exisitng tools into pyramid.
 
 *mongo*
-- use `mongoengine <https://github.com/MongoEngine/mongoengine>`_ for MongoDB ORM
+- use [mongoengine](https://github.com/MongoEngine/mongoengine) for MongoDB ORM
 - REST interface with traversal pattern
 - gevent supported
 
 *task*
-- use `celery <https://github.com/ask/celery>`_ for distributed task queue
+- use [celery](https://github.com/ask/celery>) for distributed task queue
 - Copped with mongodb
 - Decorator that speficy queue name and auto register tasks
 - configure and run celeryd with paste script, $ pceleryd [development.ini]
