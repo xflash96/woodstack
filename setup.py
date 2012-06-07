@@ -9,7 +9,7 @@ CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 requires = ['pyramid', 'pyramid_debugtoolbar', 'mongoengine', 'gevent', 'celery', 'webtest']
 
 setup(name='myapp',
-      version='0.0',
+      version='0.01',
       description='myapp',
       long_description=README + '\n\n' +  CHANGES,
       classifiers=[
@@ -32,7 +32,7 @@ setup(name='myapp',
       [paste.app_factory]
       main = myapp:main
       [console_scripts]
-      pceleryd = myapp.script.pceleryd:main
+      pceleryd = myapp.woodstack.scripts.pceleryd:main
       """,
       paster_plugins=['pyramid'],
       )
